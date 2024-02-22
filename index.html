@@ -31,58 +31,6 @@
 s0.initCam()
 
 
-acceleration = {
-	x: 0,
-	y: 0
-}
-deviceOrientation = {
-	alpha: 0,
-	beta: 0,
-	gamma: 0
-}
-
-handleOrientation = (event) => {
-	deviceOrientation = event
-}
-
-editor = document.getElementById('editor-container')
-b = document.createElement('button')
-b.innerText = 'request accelerometer permissions'
-b.style.position = 'fixed'
-editor.appendChild(b)
-
-requestPermissions = () => {
-	b.style.background = 'blue'
-	if (typeof DeviceMotionEvent.requestPermission === 'function') {
-		// Handle iOS 13+ devices.
-		DeviceMotionEvent.requestPermission()
-			.then((state) => {
-				if (state === 'granted') {
-					b.style.background = 'green'
-					window.addEventListener('deviceorientation', handleOrientation);
-					b.style.opacity = 0
-				} else {
-					b.innerText = 'Request to access the orientation was rejected'
-					console.error('Request to access the orientation was rejected');
-				}
-			})
-			.catch((err) => {
-				b.style.background = 'red'
-				b.innerText = err
-				console.error(err)
-			});
-	} else {
-		b.style.background = 'orange'
-
-		// Handle regular non iOS 13+ devices.
-		window.addEventListener('deviceorientation', handleOrientation);
-		b.style.opacity = 0
-
-	}
-}
-
-b.addEventListener('click', requestPermissions)
-
 render(o0)
 
 
@@ -118,7 +66,7 @@ src(o2).diff(o3).layer(
 			 noise(15, 3, 2)
 			.diff(osc(10, -0.5, 900))
 			.mask(shape(800, 0.3, 0.3)).scrollY(() => -deviceOrientation.beta/300)
-	.scrollX(() => -deviceOrientation.gamma/300).color(1,1,1,.5)).out(o0)
+	.scrollX(() => -gyro.gamma/300).color(1,1,1,.5)).out(o0)
 src(o1).diff(o0).out(o1)
 
 
