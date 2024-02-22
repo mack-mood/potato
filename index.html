@@ -31,31 +31,95 @@
 s0.initCam()
 
 
-src(s0).color(1,0.5,1).invert(()=>Math.sin(time)*2).modulateKaleid(osc(200).kaleid(999),2).modulateScale(osc(4,-0.5,0).kaleid(50).scale(0.5),15,0).repeat(1, 4.0, 0.0, 0.0)
-.rotate( () => time%30 ).out()
+acceleration = {
+	x: 0,
+	y: 0
+}
+deviceOrientation = {
+	alpha: 0,
+	beta: 0,
+	gamma: 0
+}
 
+handleOrientation = (event) => {
+	deviceOrientation = event
+}
 
-src(s0).out()
+editor = document.getElementById('editor-container')
+b = document.createElement('button')
+b.innerText = 'request accelerometer permissions'
+b.style.position = 'fixed'
+editor.appendChild(b)
+
+requestPermissions = () => {
+	b.style.background = 'blue'
+	if (typeof DeviceMotionEvent.requestPermission === 'function') {
+		// Handle iOS 13+ devices.
+		DeviceMotionEvent.requestPermission()
+			.then((state) => {
+				if (state === 'granted') {
+					b.style.background = 'green'
+					window.addEventListener('deviceorientation', handleOrientation);
+					b.style.opacity = 0
+				} else {
+					b.innerText = 'Request to access the orientation was rejected'
+					console.error('Request to access the orientation was rejected');
+				}
+			})
+			.catch((err) => {
+				b.style.background = 'red'
+				b.innerText = err
+				console.error(err)
+			});
+	} else {
+		b.style.background = 'orange'
+
+		// Handle regular non iOS 13+ devices.
+		window.addEventListener('deviceorientation', handleOrientation);
+		b.style.opacity = 0
+
+	}
+}
+
+b.addEventListener('click', requestPermissions)
+
+render(o0)
+
 
 osc(60,-0.015,1).diff(osc(60,0.08).rotate(Math.PI/2))
-.modulateScale(noise(3.5,0.25).modulateScale(osc(15).rotate(()=>Math.sin(time/2))),0.6)
-.color(-1,0.5,0.8).contrast(1.4)
-.add(src(o0).modulate(o0,.04),.6)
-.invert().brightness(0.1).contrast(1.2)
-.modulateScale(osc(2),-0.2)
-.out()
+	.modulateScale(noise(3.5,0.25).modulateScale(osc(15).rotate(()=>Math.sin(time/2))),0.6)
+	.color(-1,0.5,0.8).contrast(1.4)
+	.add(src(o0).modulate(o0,.04),.6)
+	.invert().brightness(0.1).contrast(1.2)
+	.modulateScale(osc(2),-0.2)
+  .out(o1)
 
 
+src(s0).diff(o1).out(o2)
 
-
-src(o0)
+src(o3)
 	.blend(s0, 0.04)
 	//.scale(1.01)
-	.modulate(o0, 0.001)
+	.modulate(o1, 0.001)
 	.contrast(1.02)
+	.out(o3)
+
+osc(10,-0.25,0.2).color(1,1,1).saturate(2).kaleid(50)
+  .mask(noise(25,2).modulateScale(noise(0.25,0.05)))
+  .modulateScale(osc(6,-0.5,2).kaleid(50))
+  .mult(osc(3,-0.25,2).kaleid(80))
+  .scale(0.5,0.5,0.75)
+a.setCutoff(4)
+osc().modulate(noise(3),()=>a.fft[0])
+  .out(o0)
 
 
-src(s0).diff(o0).out()
+src(o2).diff(o3).layer(
+			 noise(15, 3, 2)
+			.diff(osc(10, -0.5, 900))
+			.mask(shape(800, 0.3, 0.3)).scrollY(() => -deviceOrientation.beta/300)
+	.scrollX(() => -deviceOrientation.gamma/300).color(1,1,1,.5)).out(o0)
+src(o1).diff(o0).out(o1)
 
 
 
