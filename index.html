@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=false" />
     <title>potato</title>
     <script src="./lib/hydra-synth.js"></script>
+    <script src="./lib/gyro.js"></script>
     <styLe>
         html,
         body {
@@ -56,23 +57,16 @@ src(o0)
 
 src(s0).diff(o0).out()
 
-// voronoi(10,0.1,25).thresh(1,4).modulate(o0,0.1).color(10,0.2,1).brightness(()=>Math.random()*0.15)
- // .modulatePixelate(noise(25,0.5),100)
- // .out(o3)
-
-//osc(10, 0.3, 10).rotate(0.9, 0.01).kaleid().repeat().out()
 
 
 
 
-
-
-
-
-
-
+    shape().scrollX(() => gyro.beta / 4).scrollY(() => gyro.gamma / 4).out()
+        gyro.requestPermissions(document.getElementById('gyro-button'))
+        gyro.show()
 
     </script>
+    <button id="gyro-button">activate gyroscope</button>
 </body>
 
 </html>
