@@ -137,8 +137,8 @@ osc().modulate(noise(3),()=>a.fft[0])
 src(o2).diff(o3).layer(
 			 noise(15, 3, 2)
 			.diff(osc(10, -0.5, 900))
-			.mask(shape(800, 0.1, 0.1)).scrollY(() => -gyro.beta/300)
-	.scrollX(() => -gyro.gamma/300).color(1,1,1,.5)).out(o0)
+			.mask(shape(800, 0.1, 0.1)).scrollY(() => -gyro.beta/5)
+	.scrollX(() => -gyro.gamma/5).color(1,1,1,.5)).out(o0)
 src(o1).diff(o0).out(o1)
 
 
