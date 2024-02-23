@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Audiowide">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=false" />
     <title>potato</title>
@@ -28,26 +29,52 @@
         }
 
         #gyro-button {
-            position: absolute;
-      width: 100%;
-      height: 100%;
-      background: none;
-      cursor: pointer;
-      background-size: cover;
-      background-position: center;
-      background-image: url("cover.png");
-      top: 0px;
-      left: 0px;
-      z-index: 200;
-      border: none;
-        }
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: none;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  background-image: url("cover.png");
+  top: 0;
+  left: 0;
+  z-index: 200;
+  border: none;
+  font-family: "Audiowide", sans-serif;
+  font-size: 46px;
+  filter: url(#squiggly-filter); 
+  line-height: 1;
+}
 
+#gyro-button span {
+    display: block;
+}
+
+#gyro-button .small {
+  font-size: smaller;
+  vertical-align: super;
+  opacity: 0.9; 
+}
     </styLe>
 </head>
 
 <body>
-    <button id="gyro-button">touch to begin</button>
-    <button id="gyro-button">activate gyroscope</button>
+    <button id="gyro-button" class="test" contenteditable>
+        <span>Activate</span>
+        <span class="small">the</span>
+        <span>Gyroscope</span>
+    </button>
+
+    
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none;">
+        <defs>
+            <filter id="squiggly-filter">
+                <feTurbulence baseFrequency="0.02" numOctaves="3" result="noise" seed="1"/>
+                <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" />
+            </filter>
+        </defs>
+    </svg>
     <script type="module">
 
         const hydraCanvas = document.getElementById('hydra-canvas')
@@ -60,8 +87,20 @@
         
 
 
-s0.initCam()
-
+        window.navigator.mediaDevices.getUserMedia({
+            audio: false,
+            video: { facingMode: "environment" }
+        }).then((stream) => {
+            const video = document.createElement('video')
+            video.setAttribute('autoplay', '')
+            video.setAttribute('muted', '')
+            video.setAttribute('playsinline', '')
+            video.srcObject = stream
+            video.addEventListener('loadedmetadata', () => {
+                video.play()
+                s0.init({ src: video })
+            })
+        })
 
 render(o0)
 
