@@ -43,7 +43,14 @@
 
 <body>
     <script type="module">
-        const h = new Hydra()
+
+        const hydraCanvas = document.getElementById('hydra-canvas')
+        hydraCanvas.width = window.innerWidth
+        hydraCanvas.height = window.innerHeight
+        const h = new Hydra({ canvas: hydraCanvas })
+
+        gyro.requestPermissions(document.getElementById('gyro-button'))
+
         
 
 
