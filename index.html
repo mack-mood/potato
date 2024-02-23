@@ -29,19 +29,25 @@
 
         #gyro-button {
             position: absolute;
-            width: 100%;
-            height: 100%;
-            background: none;
-            cursor: pointer;
-            background-size: cover;
-            /* background-position: center; */
-            /* background-image: url("cover.png"); */
+      width: 100%;
+      height: 100%;
+      background: none;
+      cursor: pointer;
+      background-size: cover;
+      background-position: center;
+      background-image: url("cover.png");
+      top: 0px;
+      left: 0px;
+      z-index: 200;
+      border: none;
         }
 
     </styLe>
 </head>
 
 <body>
+    <button id="gyro-button">touch to begin</button>
+    <button id="gyro-button">activate gyroscope</button>
     <script type="module">
 
         const hydraCanvas = document.getElementById('hydra-canvas')
@@ -104,8 +110,7 @@ src(o1).diff(o0).out(o1)
 
     </script>
     <canvas id="hydra-canvas"></canvas>
-    <button id="gyro-button">touch to begin</button>
-    <button id="gyro-button">activate gyroscope</button>
+   
 </body>
 
 </html>
