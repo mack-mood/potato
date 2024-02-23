@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=false" />
     <title>potato</title>
     <script src="./lib/hydra-synth.js"></script>
-    <script src="./lib/gyro.js"></script>
+    <script src="./lib/gyro-v2.js"></script>
     <styLe>
         html,
         body {
@@ -19,6 +19,25 @@
         canvas {
             display: block;
         }
+        #hydra-canvas {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        #gyro-button {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: none;
+            cursor: pointer;
+            background-size: cover;
+            /* background-position: center; */
+            /* background-image: url("cover.png"); */
+        }
+
     </styLe>
 </head>
 
@@ -26,8 +45,8 @@
     <script type="module">
         const h = new Hydra()
         
-// licensed with CC BY-NC-SA 4.0 https://creativecommons.org/licenses/by-nc-sa/4.0/
-// initialise camera in variable s0
+
+
 s0.initCam()
 
 
@@ -77,6 +96,8 @@ src(o1).diff(o0).out(o1)
         //gyro.show()
 
     </script>
+    <canvas id="hydra-canvas"></canvas>
+    <button id="gyro-button">touch to begin</button>
     <button id="gyro-button">activate gyroscope</button>
 </body>
 
